@@ -4,7 +4,8 @@ include ../Makefile.common
 
 OBJS+=startup.o
 OBJS+=main.o
-
+OBJS+=led.o
+OBJS+=delay.o
 all: src
 
 src: app.a

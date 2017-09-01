@@ -1,46 +1,22 @@
-/*************************************************************************************
-* Test-program for Olimex ‚ÄúSTM32-H103‚Äù, header board for ‚ÄúSTM32F103RBT6‚Äù.
-* After program start green LED (LED_E) will blink.
-*
-* Program has to be compiled with optimizer setting "-O0".
-* Otherwise delay via while-loop will not work correctly.
-*************************************************************************************/
-#include "stm32f10x.h"
-#include "stm32f10x_rcc.h"
-#include "stm32f10x_gpio.h"
-int main(int argc, char *argv[])
-{
- 	GPIO_InitTypeDef GPIO_InitStructure;
- 	u32 delay;
-/* GPIOC Periph clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
-/* Configure PC12 to mode: slow rise-time, pushpull output */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6; // GPIO No. 12
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; // slow rise time
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // push-pull output
-	GPIO_Init(GPIOF, &GPIO_InitStructure); // GPIOC init
+#include "led.h"
+#include "delay.h"
+#include "sys.h"
+//ALIENTEK miniSTM32ø™∑¢∞Â µ—È1
+//≈‹¬Ìµ∆ µ—È  
+//ºº ı÷ß≥÷£∫www.openedv.com
+//π„÷› ––«“ÌµÁ◊”ø∆ºº”–œﬁπ´Àæ
+ int main(void)
+ {	
+	delay_init();	    	 //—” ±∫Ø ˝≥ı ºªØ	  
+	LED_Init();		  	//≥ı ºªØ”ÎLED¡¨Ω”µƒ”≤º˛Ω”ø⁄
 	while(1)
 	{
-		/* make some float calculations */
-		float x = 42, y = 23, z = 7;
-		int i = 0;
-		for ( i = 0; i < 6; i++ )
-		{
-			z = (x*y)/z;
-		};
-		/* GPIO PC12 set, pin=high, LED_E off */
-		GPIOF->BSRR = GPIO_BSRR_BS6;
-		/*GPIO_WriteBit(GPIOC,GPIO_Pin_12,Bit_SET);*/
-		/* delay --> compiler optimizer settings must be "-O0" */
-		delay=500000;
-		while(delay)
-			delay--;
-		/* GPIO PC12 reset, pin=low, LED_E on */
-		GPIOF->BSRR = GPIO_BSRR_BR6;
-		/*GPIO_WriteBit(GPIOC,GPIO_Pin_12,Bit_RESET);*/
-		/* delay --> compiler optimizer settings must be "-O0" */
-		delay=500000;
-		while(delay)
-			delay--;
+		LED0=0;
+		LED1=1;
+		delay_ms(100);	 //—” ±300ms
+		LED0=1;
+		LED1=0;
+		delay_ms(100);	//—” ±300ms
 	}
-}
+ }
+
